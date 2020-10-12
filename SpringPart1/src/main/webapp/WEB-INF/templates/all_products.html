@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Spring Part 1</title>
+</head>
+
+<body>
+<h1>List of products:</h1>
+<table>
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Title</td>
+        <td>Cost</td>
+        <td>Операции</td>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="p : ${products}">
+        <td th:text="${p.id}"></td>
+        <td th:text="${p.title}"></td>
+        <td th:text="${p.cost}"></td>
+        <td><form th:action="@{'/products/add'}" method="get">
+            <button type="submit">SUB</button>
+        </form></td>
+<!--        <td><a th:href="@{'/students/edit/' + ${s.id}}" >Редактировать</a></td>-->
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/}">на Главную страницу</a>
+</body>
+</html>
