@@ -36,6 +36,11 @@ public class ProductController {
         return "add_product_form";
     }
 
+    @GetMapping("/")
+    public String homePage(){
+        return "home_page";
+    }
+
     //localhost:8080/app/products/add (post)
     @PostMapping("/add")
     public String saveNewStudent(@ModelAttribute Product newProduct) {

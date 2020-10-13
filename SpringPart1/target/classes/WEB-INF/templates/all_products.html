@@ -5,6 +5,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Spring Part 1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -24,13 +26,20 @@
         <td th:text="${p.id}"></td>
         <td th:text="${p.title}"></td>
         <td th:text="${p.cost}"></td>
-        <td><form th:action="@{'/products/add'}" method="get">
-            <button type="submit">SUB</button>
-        </form></td>
+        <td><form th:action="@{'/products/edit/' + ${p.id}}" method="get">
+            <button type="submit" class="btn btn-dark">EDIT</button>
+        </form>
+        </td>
 <!--        <td><a th:href="@{'/students/edit/' + ${s.id}}" >Редактировать</a></td>-->
     </tr>
     </tbody>
 </table>
-<a th:href="@{/}">на Главную страницу</a>
+<div>
+    <a th:href="@{'/products/add'}">Add new product</a>
+</div>
+<div>
+    <a th:href="@{/}">Home page</a>
+</div>
+
 </body>
 </html>
