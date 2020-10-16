@@ -1,0 +1,3 @@
+DROP TABLE  IF EXISTS products cascade ;
+CREATE TABLE IF NOT EXISTS products (id bigserial, title VARCHAR(255), cost int, PRIMARY KEY (id));
+INSERT INTO products (title, cost) VALUES ('Milk', 70), ('Coffee', 250), ('Sneakers', 70), ('Milka', 100), ('Fish', 800), ('Window', 3700), ('Touchpad', 2800), ('Cable', 280), ('PhoneCase', 1500), ('Milk', 120), ('Shoes', 2500), ('Bread', 35), ('Paper', 300), ('SunGlass', 1000), ('Table', 4500), ('Watch', 8000), ('Pencil', 20), ('Flashcard', 450), ('Book', 300), ('Chocolate', 120);

@@ -3,9 +3,13 @@ package lessons.springLessons.services;
 import lessons.springLessons.entities.Product;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import lessons.springLessons.repositories.ProductRepository;
+
 import java.util.List;
 
 @Service
@@ -20,17 +24,30 @@ public class ProductService {
     }
 
 
+    public List<Product> findAll(Integer page) {
+        if (page == null || page < 1) {
+            page = 1;
+        }
+        return productRepository.findAll(PageRequest.of(page - 1, 5)).getContent();
+    }
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public Page<Product> findAllBySpec(Specification<Product> specification, Integer page){
+        if (page==null || page<1L){
+            page=1;
+        }
+        return productRepository.findAll(specification,PageRequest.of(page,5));
     }
 
     public Product getProductById(Long id) {
-        return productRepository.findById(id);
+        return productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No matchers"));
     }
 
-    public Product saveOrUpdate(Product product){
-        return productRepository.saveOrUpdate(product);
+    public Product saveOrUpdate(Product product) {
+        return productRepository.save(product);
+    }
+
+    public List<Product> findAllByMinCost(Long cost) {
+        return productRepository.findAllByCostLessThan(cost);
     }
 
 }

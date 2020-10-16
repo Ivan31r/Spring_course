@@ -2,8 +2,10 @@ package lessons.springLessons.controllers;
 
 import lessons.springLessons.entities.Product;
 import lessons.springLessons.services.ProductService;
+import lessons.springLessons.specifications.ProductSpecifications;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +23,28 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
+    @GetMapping
+    @RequestMapping("all_with_spec")
+    public String showAllProductBySpec(Model model,
+                                       @RequestParam(name = "p",required = false) Integer page,
+                                       @RequestParam(name = "cost",required = false) Integer minCost){
+        Specification<Product> specification = Specification.where(null);
+        if (minCost!=null){
+            specification=specification.and(ProductSpecifications.costGreaterOrEqualsThan(minCost));
+        }
+        List<Product> products = productService.findAllBySpec(specification,page).getContent();
+        model.addAttribute("products",products);
+        return "all_products";
+    }
 
     @GetMapping
     @RequestMapping("/all")
-    public String showAllProducts(Model model) {
-        List<Product> products = productService.findAll();
+    public String showAllProducts(@RequestParam (name = "p", required = false) Integer page, Model model) {
+        List<Product> products = productService.findAll(page);
         model.addAttribute("products", products);
         return "all_products";
     }
+
 
     //localhost:8080/app/products/add
     @GetMapping("/add")
@@ -64,6 +80,12 @@ public class ProductController {
     @ResponseBody
     public Product showJsonProduct(@PathVariable Long id) {
         return productService.getProductById(id);
+    }
+
+    @GetMapping("/find_by_min_cost")
+    @ResponseBody
+    public List<Product> findAllByMinCost(@RequestParam Long cost){
+        return productService.findAllByMinCost(cost);
     }
 
 
